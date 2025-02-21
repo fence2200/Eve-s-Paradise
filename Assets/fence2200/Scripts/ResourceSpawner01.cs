@@ -48,15 +48,14 @@ public class ResourceSpawner01 : MonoBehaviour
 
     Vector3 GetGroundPosition()
     {
-        // 현재 오브젝트의 위치를 기준으로 반경 내에서 랜덤 위치를 계산
-        Vector2 randomCircle = Random.insideUnitCircle * spawnRadius; // spawnRadius 범위 내에서 랜덤 좌표 계산
-        Vector3 startPosition = new Vector3(randomCircle.x, 20f, randomCircle.y) + transform.position; // 현재 오브젝트 위치 기준으로 설정
+        Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
+        Vector3 startPosition = new Vector3(randomCircle.x, 20f, randomCircle.y) + transform.position;
 
         RaycastHit hit;
         if (Physics.Raycast(startPosition, Vector3.down, out hit, 40f, groundLayer))
         {
-            return hit.point; // 바닥에 충돌한 위치 반환
+            return hit.point;
         }
-        return Vector3.zero; // 유효한 위치를 찾지 못하면 (0, 0, 0) 반환
+        return Vector3.zero;
     }
 }

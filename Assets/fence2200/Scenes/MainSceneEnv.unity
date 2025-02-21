@@ -785,7 +785,7 @@ MonoBehaviour:
   resourcePrefabs:
   - {fileID: 3493540806375584703, guid: e35f2e8079cba6142bcd6cabcced7a87, type: 3}
   spawnRadius: 10
-  maxResources: 5
+  maxResources: 10
 --- !u!1 &1143006923
 GameObject:
   m_ObjectHideFlags: 0

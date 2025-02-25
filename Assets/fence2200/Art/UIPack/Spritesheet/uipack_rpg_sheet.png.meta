@@ -132,7 +132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InventorySlot
+      name: InventorySlot_02
       rect:
         serializedVersion: 2
         x: 290
@@ -153,6 +153,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: InventorySlot_01
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 169
+        width: 45
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82005ae5f1120d544acfba764573f64f
+      internalID: -194482665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -168,7 +190,8 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       InventoryBase: -1187802491
-      InventorySlot: -457167608
+      InventorySlot_01: -194482665
+      InventorySlot_02: -457167608
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

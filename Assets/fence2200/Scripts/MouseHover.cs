@@ -9,6 +9,9 @@ public class MouseHover : MonoBehaviour
     public Transform uIManager; // 텍스트 생성시 이 오브젝트의 자식으로
     private Camera mainCamera; // Ray사용을 위한 카메라
 
+    public ItemContainer inventoryContainer; // 인벤토리 데이터 참조
+    public Item branchItem; // 나뭇가지 아이템 (인벤토리에 추가할 아이템)
+
     void Start()
     {
         mainCamera = Camera.main; // 카메라 캐싱
@@ -17,6 +20,7 @@ public class MouseHover : MonoBehaviour
     void Update()
     {
         HandleMouseHover();
+        HandleMouseClick(); // 클릭 감지 추가
     }
 
     void HandleMouseHover()
@@ -27,19 +31,19 @@ public class MouseHover : MonoBehaviour
             return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스 위치에서 Raycast를 쏴서 나뭇가지 위에 있는지 확인
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 100f, resourceLayer)) // Ray 사정거리 지정과 지정된 자원 레이어만 체크
+        if (Physics.Raycast(ray, out hit, 10f, resourceLayer)) // 10f로 범위 제한
         {
-            if (hit.transform.CompareTag("Branch")) // 나뭇가지 태그가 붙어 있으면
+            if (hit.transform.CompareTag("Branch")) // "Branch" 태그 확인
             {
                 if (currentCanvas == null) // 텍스트가 없으면 생성
                 {
-                    currentCanvas = Instantiate(resourceCanvas, hit.transform.position + new Vector3(0, 0.3f, 0), Quaternion.Euler(80f, 0f, 0f)); // 나뭇가지의 위치에 텍스트 캔버스를 생성
-                    currentCanvas.transform.SetParent(uIManager); // uIManager의 자식으로 설정
+                    currentCanvas = Instantiate(resourceCanvas, hit.transform.position + new Vector3(0, 0.3f, 0), Quaternion.Euler(80f, 0f, 0f));
+                    currentCanvas.transform.SetParent(uIManager);
 
-                    TextMeshProUGUI textMeshProUGUI = currentCanvas.GetComponentInChildren<TextMeshProUGUI>(); // currentCanvas에서 자식의 TextMeshProUGUI
+                    TextMeshProUGUI textMeshProUGUI = currentCanvas.GetComponentInChildren<TextMeshProUGUI>();
 
                     if (textMeshProUGUI == null)
                     {
@@ -47,16 +51,35 @@ public class MouseHover : MonoBehaviour
                         return;
                     }
 
-                    textMeshProUGUI.text = "나뭇가지"; // 텍스트 설정
+                    textMeshProUGUI.text = "나뭇가지";
                 }
             }
         }
         else
         {
-            // 마우스가 나뭇가지에서 벗어나면 텍스트 삭제
             if (currentCanvas != null)
             {
                 Destroy(currentCanvas);
+            }
+        }
+    }
+
+    void HandleMouseClick()
+    {
+        if (Input.GetMouseButtonDown(0)) // 좌클릭 감지
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 10f, resourceLayer)) // 다시 Raycast 체크
+            {
+                if (hit.transform.CompareTag("Branch")) // "Branch" 태그 확인
+                {
+                    // 인벤토리에 아이템 추가
+                    inventoryContainer.AddItem(branchItem, 1);
+
+                    Destroy(hit.transform.gameObject); // 클릭한 나뭇가지 삭제
+                }
             }
         }
     }

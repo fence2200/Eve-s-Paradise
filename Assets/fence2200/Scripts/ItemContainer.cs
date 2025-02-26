@@ -1,46 +1,33 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class ItemSlot
-{
-    public Item item;
-    public int count;
-}
-
-[CreateAssetMenu(menuName = "Data/Item Container")]
+[CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory/ItemContainer")]
 public class ItemContainer : ScriptableObject
 {
-    public List<ItemSlot> slots;
-
-    public void Add(Item item, int count = 1)
+    [System.Serializable]
+    public class ItemSlot
     {
+        public Item item;
+        public int count;
+    }
+
+    public List<ItemSlot> slots = new List<ItemSlot>(); // 아이템 리스트
+
+    // 아이템 추가 함수
+    public void AddItem(Item item, int count = 1)
+    {
+        // 스택 가능한 아이템이면 기존 슬롯 찾기
         if (item.stackable)
         {
-            ItemSlot itemSlot = slots.Find(slot => slot.item == item);
-            if (itemSlot != null)
+            ItemSlot existingSlot = slots.Find(slot => slot.item == item);
+            if (existingSlot != null)
             {
-                itemSlot.count += count;
-            }
-            else
-            {
-                itemSlot = slots.Find(slot => slot.item == null);
-                if (itemSlot != null)
-                {
-                    itemSlot.item = item;
-                    itemSlot.count = count;
-                }
+                existingSlot.count += count;
+                return;
             }
         }
-        else
-        {
-            ItemSlot itemSlot = slots.Find(slot => slot.item == null);
-            if (itemSlot != null)
-            {
-                itemSlot.item = item;
-            }
-        }
+
+        // 새 슬롯 추가
+        slots.Add(new ItemSlot { item = item, count = count });
     }
 }

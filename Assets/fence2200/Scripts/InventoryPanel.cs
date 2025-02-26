@@ -1,42 +1,27 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryPanel : MonoBehaviour
 {
-    [SerializeField]
-    ItemContainer inventory;
-    [SerializeField]
-    List<InventoryButton> inventoryButtons;
+    [SerializeField] private ItemContainer inventory; // 인벤토리 데이터
+    [SerializeField] private List<InventoryButton> buttons; // UI 버튼들
 
-    private void Start()
+    private void OnEnable()
     {
-        inventoryButtons.AddRange(this.transform.GetComponentsInChildren<InventoryButton>());
-        SetIndex();
-        Show();
+        RefreshUI();
     }
 
-    private void SetIndex()
+    public void RefreshUI()
     {
-        Debug.Log(inventory.slots.Count);
-        for (int i = 0; i < inventory.slots.Count; i++)
+        for (int i = 0; i < buttons.Count; i++)
         {
-            inventoryButtons[i].SetIndex(i);
-        }
-    }
-
-    private void Show()
-    {
-        for (int i = 0; i < inventory.slots.Count; i++)
-        {
-            if (inventory.slots[i].item != null)
+            if (i < inventory.slots.Count && inventory.slots[i].item != null)
             {
-                inventoryButtons[i].SetItem(inventory.slots[i]);
+                buttons[i].SetItem(inventory.slots[i]); // 아이템 표시
             }
             else
             {
-                inventoryButtons[i].Clean();
+                buttons[i].Clear(); // 빈 슬롯으로 변경
             }
         }
     }

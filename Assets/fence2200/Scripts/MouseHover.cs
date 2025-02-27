@@ -8,9 +8,8 @@ public class MouseHover : MonoBehaviour
     private GameObject currentCanvas; // 현재 텍스트 저장용
     public Transform uIManager; // 텍스트 생성시 이 오브젝트의 자식으로
     private Camera mainCamera; // Ray사용을 위한 카메라
-
-    public ItemContainer inventoryContainer; // 인벤토리 데이터 참조
-    public Item branchItem; // 나뭇가지 아이템 (인벤토리에 추가할 아이템)
+    [SerializeField] private Item branchItem; // 나뭇가지 아이템
+    [SerializeField] private ItemContainer inventory; // 인벤토리 데이터
 
     void Start()
     {
@@ -47,7 +46,7 @@ public class MouseHover : MonoBehaviour
 
                     if (textMeshProUGUI == null)
                     {
-                        Debug.LogError("❌ textMeshPro를 찾을수 없습니다!");
+                        Debug.LogError("❌ textMeshPro를 찾을 수 없습니다!");
                         return;
                     }
 
@@ -75,8 +74,16 @@ public class MouseHover : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Branch")) // "Branch" 태그 확인
                 {
-                    // 인벤토리에 아이템 추가
-                    inventoryContainer.AddItem(branchItem, 1);
+                    // 🔥 나뭇가지를 인벤토리에 추가
+                    if (branchItem != null && inventory != null)
+                    {
+                        inventory.AddItem(branchItem, 1);
+                        Debug.Log($"✅ 나뭇가지 획득! 현재 개수: {inventory.slots.Find(slot => slot.item == branchItem)?.count}");
+                    }
+                    else
+                    {
+                        Debug.LogError("❌ branchItem 또는 inventory가 설정되지 않았습니다!");
+                    }
 
                     Destroy(hit.transform.gameObject); // 클릭한 나뭇가지 삭제
                 }

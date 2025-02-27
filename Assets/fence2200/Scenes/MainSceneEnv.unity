@@ -1341,7 +1341,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: 6456a81298a356141bc67dfd1ef9cd31, type: 2}
-  buttons: []
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &718999097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1478,8 +1498,8 @@ MonoBehaviour:
     m_Bits: 128
   resourceCanvas: {fileID: 2400546997394451074, guid: fd02dcd39541aba408d747864d6005e0, type: 3}
   uIManager: {fileID: 735077333}
-  inventoryContainer: {fileID: 11400000, guid: 6456a81298a356141bc67dfd1ef9cd31, type: 2}
   branchItem: {fileID: 11400000, guid: 04964094a632bac419c56af21dac76dd, type: 2}
+  inventory: {fileID: 11400000, guid: 6456a81298a356141bc67dfd1ef9cd31, type: 2}
 --- !u!4 &735077333
 Transform:
   m_ObjectHideFlags: 0

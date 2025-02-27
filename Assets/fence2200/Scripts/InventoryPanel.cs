@@ -1,27 +1,53 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 인벤토리 UI 패널을 관리하는 클래스
 public class InventoryPanel : MonoBehaviour
 {
-    [SerializeField] private ItemContainer inventory; // 인벤토리 데이터
-    [SerializeField] private List<InventoryButton> buttons; // UI 버튼들
+    [SerializeField]
+    ItemContainer inventory;  // 인벤토리 데이터 (ScriptableObject)
+
+    [SerializeField]
+    List<InventoryButton> inventoryButtons;  // UI 버튼 리스트 (슬롯 역할)
+
+    private void Awake()
+    {
+        // 각 버튼에 인덱스를 설정
+        SetIndex();
+    }
 
     private void OnEnable()
     {
-        RefreshUI();
+        // 현재 인벤토리 데이터를 UI에 반영
+        Show();
     }
 
-    public void RefreshUI()
+    // 인벤토리 슬롯의 인덱스를 InventoryButton에 설정
+    private void SetIndex()
     {
-        for (int i = 0; i < buttons.Count; i++)
+        // InventoryPanel의 자식 오브젝트 중 InventoryButton 컴포넌트를 모두 찾아 리스트에 추가
+        inventoryButtons.AddRange(this.transform.GetComponentsInChildren<InventoryButton>());
+        for (int i = 0; i < inventory.slots.Count; i++)
         {
-            if (i < inventory.slots.Count && inventory.slots[i].item != null)
+            inventoryButtons[i].SetIndex(i);  // 각 버튼에 인덱스 부여
+        }
+    }
+
+    // UI를 갱신하여 인벤토리 데이터를 반영하는 함수
+    private void Show()
+    {
+        for (int i = 0; i < inventory.slots.Count; i++)
+        {
+            // 인벤토리 슬롯에 아이템이 존재하는 경우
+            if (inventory.slots[i].item != null)
             {
-                buttons[i].SetItem(inventory.slots[i]); // 아이템 표시
+                inventoryButtons[i].SetItem(inventory.slots[i]);  // 해당 슬롯의 아이템을 버튼에 설정
             }
             else
             {
-                buttons[i].Clear(); // 빈 슬롯으로 변경
+                inventoryButtons[i].Clean();  // 빈 슬롯이면 UI 버튼을 초기화
             }
         }
     }
